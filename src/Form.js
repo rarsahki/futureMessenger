@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { response } from 'express';
 
 class Form extends Component{
     state = {
@@ -23,8 +24,8 @@ class Form extends Component{
         axios.post('https://futureapi.now.sh/',data).then(res => {
             this.setState({sent: true},this.resetForm())
         }).catch(
-            error => {
-                console.log(error)
+            () => {
+                console.log("Message not sent")
             }
         )
     }
