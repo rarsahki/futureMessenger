@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { response } from 'express';
 
 class Form extends Component{
     state = {
@@ -14,7 +13,7 @@ class Form extends Component{
     formSubmit = (e) => {
         e.preventDefault()
         this.setState({
-            buttonText: "...Submitting"
+            buttonText: "...Sending"
         })
         let data = {
             name: this.state.name,
