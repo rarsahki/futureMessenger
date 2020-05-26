@@ -23,8 +23,8 @@ class Form extends Component{
         axios.post('https://futureapi.now.sh/',data).then(res => {
             this.setState({sent: true},this.resetForm())
         }).catch(
-            () => {
-                console.log("Message not sent")
+            (err) => {
+                console.log(err)
             }
         )
     }
