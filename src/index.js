@@ -4,10 +4,26 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import Form from './Form';
+import { ApolloProvider } from 'react-apollo';
+import { ApolloClient } from 'apollo-boost';
+import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory';
+import { HttpLink } from 'apollo-link-http';
+
+const cache = new InMemoryCache();
+const link = new HttpLink({
+    uri:'https://fmgraphql.herokuapp.com/graphql'
+});
+
+const client = new ApolloClient({
+  cache,
+  link
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <Form/>
+    <ApolloProvider client={client}>
+      <Form/>
+    </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
