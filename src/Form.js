@@ -82,7 +82,7 @@ class Form extends Component{
                         <input onChange={e => this.setState({ subject: e.target.value})} name="subject" class="message-subject" type="text" placeholder="Subject" value={this.state.subject}/>
 
                         <label class="message" htmlFor="message-input">Your Message</label>
-                        <textarea onChange={e => this.setState({ message: e.target.value})} name="message" class="message-input" type="text" placeholder="Please write your message here" value={this.state.mess}/>
+                        <textarea onChange={e => this.setState({ mess: e.target.value})} name="message" class="message-input" type="text" placeholder="Please write your message here" value={this.state.mess}/>
 
                         <label class="message-date" htmlFor="message-input">Date</label>
                         <input onChange={e => this.setState({ date: e.target.value})} name="date" class="message-date" type="date" placeholder="Input Date Here" value={this.state.date}/>
