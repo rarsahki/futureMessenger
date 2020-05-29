@@ -8,10 +8,11 @@ import { HttpLink } from 'apollo-link-http';
 import axios from 'axios';
 
 const addMessageMutation = gql`
-    mutation($name:String!,$email:String!,$subject:String!,$date:String){
-        addMessage(name:$name,email:$email,subject:$subject,date:$date){
+    mutation($name:String!,$email:String!,$message:String!,$subject:String!,$date:String){
+        addMessage(name:$name,email:$email,message:$message,subject:$subject,date:$date){
             name
             email
+            message
             subject
         }
     }
