@@ -83,7 +83,7 @@ class Form extends Component{
         return (
                 <div>
                     <form className="contact-form" onSubmit={ (e) => this.formSubmit(e)}>
-                    <label class="message-name" htmlFor="message-name">Subject</label>
+                        <label class="message-name" htmlFor="message-input">Subject</label>
                         <input onChange={e => this.setState({ name: e.target.value})} name="subject" class="message-name" type="text" placeholder="Subject" value={this.state.subject}/>
 
                         <label class="message" htmlFor="message-input">Your Message</label>
