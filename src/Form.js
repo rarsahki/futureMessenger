@@ -8,11 +8,11 @@ import { HttpLink } from 'apollo-link-http';
 import axios from 'axios';
 
 const addMessageMutation = gql`
-    mutation($name:String!,$email:String!,$message:String!,$subject:String!,$date:String){
-        addMessage(name:$name,email:$email,message:$message,subject:$subject,date:$date){
+    mutation($name:String!,$email:String!,$mess:String!,$subject:String!,$date:String){
+        addMessage(name:$name,email:$email,mess:$mess,subject:$subject,date:$date){
             name
             email
-            message
+            mess
             subject
         }
     }
@@ -32,7 +32,7 @@ class Form extends Component{
     state = {
         name: "",
         email: "",
-        message: "",
+        mess: "",
         date: "",
         subject: "",
         sent: false,
@@ -44,11 +44,6 @@ class Form extends Component{
         this.setState({
             buttonText: "...Sending"
         })
-        let data = {
-            name: this.state.name,
-            message: this.state.message,
-            email: this.state.email
-        }
         var time = new Date().getMinutes();
         console.log(time);
         // axios.post('http://localhost:4444/',data).then(res => {
@@ -62,7 +57,7 @@ class Form extends Component{
             variables:{
                 name: this.state.name,
                 email: this.state.email,
-                message:this.state.message,
+                mess:this.state.mess,
                 subject: this.state.subject,
                 date: this.state.date,
             }
@@ -73,7 +68,7 @@ class Form extends Component{
     resetForm = () => {
         this.setState({
             name: '',
-            message: '',
+            mess: '',
             email: '',
             buttonText: 'Message Sent'
         })
@@ -87,7 +82,7 @@ class Form extends Component{
                         <input onChange={e => this.setState({ subject: e.target.value})} name="subject" class="message-subject" type="text" placeholder="Subject" value={this.state.subject}/>
 
                         <label class="message" htmlFor="message-input">Your Message</label>
-                        <textarea onChange={e => this.setState({ message: e.target.value})} name="message" class="message-input" type="text" placeholder="Please write your message here" value={this.state.message}/>
+                        <textarea onChange={e => this.setState({ message: e.target.value})} name="message" class="message-input" type="text" placeholder="Please write your message here" value={this.state.mess}/>
 
                         <label class="message-date" htmlFor="message-input">Date</label>
                         <input onChange={e => this.setState({ date: e.target.value})} name="date" class="message-date" type="date" placeholder="Input Date Here" value={this.state.date}/>
