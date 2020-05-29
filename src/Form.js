@@ -33,6 +33,7 @@ class Form extends Component{
         email: "",
         message: "",
         date: "",
+        subject: "",
         sent: false,
         buttonText: "Submit",
     }
@@ -60,8 +61,9 @@ class Form extends Component{
             variables:{
                 name: this.state.name,
                 email: this.state.email,
-                subject: this.state.message,
-                date: this.state.date
+                message:this.state.message,
+                subject: this.state.subject,
+                date: this.state.date,
             }
         });
         console.log(this.props)
@@ -80,6 +82,9 @@ class Form extends Component{
         return (
                 <div>
                     <form className="contact-form" onSubmit={ (e) => this.formSubmit(e)}>
+                    <label class="message-name" htmlFor="message-name">Subject</label>
+                        <input onChange={e => this.setState({ name: e.target.value})} name="subject" class="message-name" type="text" placeholder="Subject" value={this.state.subject}/>
+
                         <label class="message" htmlFor="message-input">Your Message</label>
                         <textarea onChange={e => this.setState({ message: e.target.value})} name="message" class="message-input" type="text" placeholder="Please write your message here" value={this.state.message}/>
 
