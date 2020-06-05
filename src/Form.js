@@ -64,9 +64,7 @@ class Form extends Component{
         });
         console.log(this.props)
         alert("Message Sent")
-        this.setState({
-            buttonText: "Submit"
-        })
+        this.resetForm()
     }
 
     resetForm = () => {
@@ -74,7 +72,7 @@ class Form extends Component{
             name: '',
             mess: '',
             email: '',
-            buttonText: 'Message Sent'
+            buttonText: 'Submit'
         })
     }
     render() {
