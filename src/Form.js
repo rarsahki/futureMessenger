@@ -63,6 +63,10 @@ class Form extends Component{
             }
         });
         console.log(this.props)
+        alert("Message Sent")
+        this.setState({
+            buttonText: "Submit"
+        })
     }
 
     resetForm = () => {
