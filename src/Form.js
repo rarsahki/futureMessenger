@@ -70,10 +70,7 @@ class Form extends Component{
     resetForm = () => {
         this.setState({
             name: "",
-            email: "",
             mess: "",
-            date: "",
-            subject: "",
             sent: false,
             buttonText: "Submit"
         })
