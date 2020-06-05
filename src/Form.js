@@ -36,7 +36,7 @@ class Form extends Component{
         date: "",
         subject: "",
         sent: false,
-        buttonText: "Submit",
+        buttonText: "Submit"
     }
 
     formSubmit = (e) => {
@@ -69,10 +69,13 @@ class Form extends Component{
 
     resetForm = () => {
         this.setState({
-            name: '',
-            mess: '',
-            email: '',
-            buttonText: 'Submit'
+            name: "",
+            email: "",
+            mess: "",
+            date: "",
+            subject: "",
+            sent: false,
+            buttonText: "Submit"
         })
     }
     render() {
