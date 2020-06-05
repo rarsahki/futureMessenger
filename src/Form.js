@@ -8,7 +8,7 @@ import { HttpLink } from 'apollo-link-http';
 import axios from 'axios';
 
 const addMessageMutation = gql`
-    mutation($name:String!,$email:String!,$mess:String!,$subject:String!,$date:String){
+    mutation($name:String!,$email:String!,$mess:String!,$subject:String!,$date:String!){
         addMessage(name:$name,email:$email,mess:$mess,subject:$subject,date:$date){
             name
             email
@@ -63,6 +63,10 @@ class Form extends Component{
             }
         });
         console.log(this.props)
+        alert("Message Sent")
+        this.setState({
+            buttonText: "Submit"
+        })
     }
 
     resetForm = () => {
