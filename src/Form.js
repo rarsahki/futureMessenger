@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from 'react-apollo';
 import { gql } from 'apollo-boost';
-import { graphql,compose } from 'react-apollo';
-import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
-import axios from 'axios';
+import { graphql} from 'react-apollo';
+import './Form.css'
 
 const addMessageMutation = gql`
     mutation($name:String!,$email:String!,$mess:String!,$subject:String!,$date:String!){
@@ -14,16 +10,6 @@ const addMessageMutation = gql`
             email
             mess
             subject
-        }
-    }
-`
-const getMessage = gql `
-    {
-        message{
-            email
-            name
-            subject
-            date
         }
     }
 `
@@ -78,25 +64,38 @@ class Form extends Component{
     render() {
         console.log(this.props)
         return (
-                <div>
-                    <form className="contact-form" onSubmit={ (e) => this.formSubmit(e)}>
-                        <label class="message-subject" htmlFor="message-subject">Subject</label>
-                        <input onChange={e => this.setState({ subject: e.target.value})} name="subject" class="message-subject" type="text" placeholder="Subject" value={this.state.subject}/>
-
-                        <label class="message" htmlFor="message-input">Your Message</label>
-                        <textarea onChange={e => this.setState({ mess: e.target.value})} name="message" class="message-input" type="text" placeholder="Please write your message here" value={this.state.mess}/>
-
-                        <label class="message-date" htmlFor="message-input">Date</label>
-                        <input onChange={e => this.setState({ date: e.target.value})} name="date" class="message-date" type="date" placeholder="Input Date Here" value={this.state.date}/>
-
-                        <label class="message-name" htmlFor="message-name">Your Name</label>
-                        <input onChange={e => this.setState({ name: e.target.value})} name="name" class="message-name" type="text" placeholder="Your Name" value={this.state.name}/>
-
-                        <label class="message-email" htmlFor="message-email">Your Email</label>
-                        <input onChange={(e) => this.setState({ email: e.target.value})} name="email" class="message-email" type="email" placeholder="your@email.com" required value={this.state.email} />
-
+                <div class="App">
+                    <form onSubmit={ (e) => this.formSubmit(e)}>
+                        <br/>
+                        <br/>
+                        <div>
+                            <input onChange={e => this.setState({ subject: e.target.value})} name="subject" class="message-subject" type="text" placeholder="Subject" value={this.state.subject}/>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div>
+                            <textarea onChange={e => this.setState({ mess: e.target.value})} name="message" class="message-input" type="text" placeholder="Please write your message here" value={this.state.mess}/>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div>
+                            <label class="message-date" htmlFor="message-input">Date</label>
+                            <input onChange={e => this.setState({ date: e.target.value})} name="date" class="message-date" type="date" placeholder="Input Date Here" value={this.state.date}/>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div>
+                            <input onChange={e => this.setState({ name: e.target.value})} name="name" class="message-name" type="text" placeholder="Your Name" value={this.state.name}/>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div>
+                            <input onChange={(e) => this.setState({ email: e.target.value})} name="email" class="message-email" type="email" placeholder="your@email.com" required value={this.state.email} />
+                        </div>
+                        <br/>
+                        <br/>
                         <div className="button--container">
-                            <button type="submit" className="button button-primary">{ this.state.buttonText }</button>
+                            <button type="submit" className="btn btn-dark">{ this.state.buttonText }</button>
                         </div>
                     </form>
                 </div>
