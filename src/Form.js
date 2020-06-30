@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
+import { Editor } from 'react-draft-wysiwyg';
+import { EditorState } from 'draft-js';
+import {stateToHTML} from 'draft-js-export-html';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { gql } from 'apollo-boost';
-import { graphql} from 'react-apollo';
+import { graphql } from 'react-apollo';
 import './Form.css'
+import Notebook from './Note Mail/notebook';
 
 const addMessageMutation = gql`
     mutation($name:String!,$email:String!,$mess:String!,$subject:String!,$date:String!){
@@ -22,35 +27,43 @@ class Form extends Component{
         date: "",
         subject: "",
         sent: false,
-        buttonText: "Submit"
+        buttonText: "Submit",
+        editorState: EditorState.createEmpty()
     }
+
+    onEditorStateChange = (editorState) => {
+        this.setState({
+          editorState,
+        });
+    };
 
     formSubmit = (e) => {
         e.preventDefault()
-        this.setState({
-            buttonText: "...Sending"
-        })
-        var time = new Date().getMinutes();
-        console.log(time);
-        // axios.post('http://localhost:4444/',data).then(res => {
-        //     this.setState({sent: true},this.resetForm())
-        // }).catch(
-        //     (err) => {
-        //         console.log(err)
+        console.log(stateToHTML(this.state.editorState.getCurrentContent()))
+        // this.setState({
+        //     buttonText: "...Sending"
+        // })
+        // var time = new Date().getMinutes();
+        // console.log(time);
+        // // axios.post('http://localhost:4444/',data).then(res => {
+        // //     this.setState({sent: true},this.resetForm())
+        // // }).catch(
+        // //     (err) => {
+        // //         console.log(err)
+        // //     }
+        // // )
+        // this.props.mutate({
+        //     variables:{
+        //         name: this.state.name,
+        //         email: this.state.email,
+        //         mess:this.state.mess,
+        //         subject: this.state.subject,
+        //         date: this.state.date,
         //     }
-        // )
-        this.props.mutate({
-            variables:{
-                name: this.state.name,
-                email: this.state.email,
-                mess:this.state.mess,
-                subject: this.state.subject,
-                date: this.state.date,
-            }
-        });
-        console.log(this.props)
-        alert("Message Sent")
-        this.resetForm()
+        // });
+        // console.log(this.props)
+        // alert("Message Sent")
+        // this.resetForm()
     }
 
     resetForm = () => {
@@ -66,15 +79,12 @@ class Form extends Component{
         return (
                 <div class="App">
                     <form onSubmit={ (e) => this.formSubmit(e)}>
-                        <br/>
-                        <br/>
                         <div>
                             <input onChange={e => this.setState({ subject: e.target.value})} name="subject" class="message-subject" type="text" placeholder="Subject" value={this.state.subject}/>
                         </div>
                         <br/>
                         <br/>
                         <div>
-                            <textarea onChange={e => this.setState({ mess: e.target.value})} name="message" class="message-input" type="text" placeholder="Please write your message here" value={this.state.mess}/>
                         </div>
                         <br/>
                         <br/>

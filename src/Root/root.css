@@ -1,0 +1,13 @@
+.root{
+    height: 100vh;
+    width: 200vw;
+    overflow: hidden;
+}
+
+#form{
+    display: inline-block;
+}
+
+#notebook{
+    display: inline-block;
+}
