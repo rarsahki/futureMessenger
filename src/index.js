@@ -7,6 +7,7 @@ import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-boost';
 import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
+import Notebook from './Note Mail/notebook';
 
 const cache = new InMemoryCache();
 const link = new HttpLink({

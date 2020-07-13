@@ -7,14 +7,17 @@ import { gql } from 'apollo-boost';
 import { graphql } from 'react-apollo';
 import './Form.css'
 import Notebook from './Note Mail/notebook';
+import notebook from './Note Mail/notebook';
 
 const addMessageMutation = gql`
-    mutation($name:String!,$email:String!,$mess:String!,$subject:String!,$date:String!){
-        addMessage(name:$name,email:$email,mess:$mess,subject:$subject,date:$date){
+    mutation($name:String!,$email:String!,$mess:String!,$subject:String!,$date:String!,$imageId:String!){
+        addMessage(name:$name,email:$email,mess:$mess,subject:$subject,date:$date,imageId:$imageId),{
             name
             email
             mess
             subject
+            date
+            imageId
         }
     }
 `
@@ -26,44 +29,37 @@ class Form extends Component{
         mess: "",
         date: "",
         subject: "",
+        imageId: "",
         sent: false,
         buttonText: "Submit",
-        editorState: EditorState.createEmpty()
     }
 
-    onEditorStateChange = (editorState) => {
-        this.setState({
-          editorState,
-        });
-    };
-
     formSubmit = (e) => {
+        console.log(this.props.imageId)
         e.preventDefault()
-        console.log(stateToHTML(this.state.editorState.getCurrentContent()))
-        // this.setState({
-        //     buttonText: "...Sending"
-        // })
-        // var time = new Date().getMinutes();
-        // console.log(time);
-        // // axios.post('http://localhost:4444/',data).then(res => {
-        // //     this.setState({sent: true},this.resetForm())
-        // // }).catch(
-        // //     (err) => {
-        // //         console.log(err)
-        // //     }
-        // // )
-        // this.props.mutate({
-        //     variables:{
-        //         name: this.state.name,
-        //         email: this.state.email,
-        //         mess:this.state.mess,
-        //         subject: this.state.subject,
-        //         date: this.state.date,
+        this.setState({
+            buttonText: "...Sending"
+        })
+        // axios.post('http://localhost:4444/',data).then(res => {
+        //     this.setState({sent: true},this.resetForm())
+        // }).catch(
+        //     (err) => {
+        //         console.log(err)
         //     }
-        // });
-        // console.log(this.props)
-        // alert("Message Sent")
-        // this.resetForm()
+        // )
+        this.props.mutate({
+            variables:{
+                name: this.state.name,
+                email: this.state.email,
+                mess:this.state.mess,
+                subject: this.state.subject,
+                date: this.state.date,
+                imageId: this.props.setImageId
+            }
+        });
+        console.log(this.props)
+        alert("Message Sent")
+        this.resetForm()
     }
 
     resetForm = () => {

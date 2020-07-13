@@ -1,11 +1,11 @@
 .noteBook{
-    height: 100vh;
+    height: 200vh;
     width: 100vw;
     padding: 5%;
     margin: auto;
     background-size: cover;
     background-repeat: no-repeat;
-    overflow: hidden;    
+    overflow: auto;    
     background-image: linear-gradient(#DCC0B9,#AAA9C5);
 }
 .writingspace{   
