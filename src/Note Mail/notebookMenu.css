@@ -1,0 +1,88 @@
+.notebookMenu_horizontal{
+    height: 7vh;
+    width: 75vw;
+    background-image: url(carboardNote.jpg);
+    position: absolute;
+    left: 12.5vw;
+    top: 3%;
+    border-radius: 25px 25px 0px 0px;
+    border: black;
+    border-style: dotted;
+}
+.notebookMenu_vertical{
+    height: 75vh;
+    width: 7vw;
+    background-image: url(carboardNote.jpg);
+    position: absolute;
+    right: 93vw;
+    border-radius: 0px 25px 025px 0px;
+    border: black;
+    border-style: dotted;
+}
+@font-face{
+    font-family: notebookMenuFont;
+    src: url(Barking\ Cat\ DEMO.otf)
+}
+
+#insertImage{
+    height: 3.5vh;
+    width: 3.5vw;
+    margin: auto;
+    position: relative;
+    top: 10%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(insertImage.png);
+}
+
+#background{
+    height: 3.5vh;
+    width: 3.5vw;
+    margin: auto;
+    position: relative;
+    top: 10%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(background.png);
+}
+
+#insertimage{
+    height: 3.5vh;
+    width: 3.5vw;
+    margin: auto;
+    position: relative;
+    top: 10%;
+}
+
+#justifyLeft{
+    height: 3.5vh;
+    width: 3.5vw;
+    margin: auto;
+    position: relative;
+    top: 10%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(justifyleft.png);
+}
+
+#justifyCenter{
+    height: 3.5vh;
+    width: 3.5vw;
+    margin: auto;
+    position: relative;
+    top: 10%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(justifycenter.png);
+}
+
+#justifyRight{
+    height: 3.5vh;
+    width: 3.5vw;
+    margin: auto;
+    position: relative;
+    top: 10%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(justifyright.png);
+}

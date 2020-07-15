@@ -2,11 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import Form from './Form';
+import Root from './Root/root';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-boost';
 import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
+import Notebook from './Note Mail/notebook';
 
 const cache = new InMemoryCache();
 const link = new HttpLink({
@@ -21,7 +22,7 @@ const client = new ApolloClient({
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <Form/>
+      <Root/>
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')

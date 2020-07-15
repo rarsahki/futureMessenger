@@ -1,0 +1,28 @@
+.menu_horizontal{
+    height: 7vh;
+    width: 35vw;
+    position: absolute;
+    top:93vh;
+    left:32.5vw;
+    background-image: url(carboard.jpg);
+    border-radius: 25px 25px 0px 0px;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+}
+.menu_vertical{
+    height: 23vh;
+    width: 7vw;
+    position: absolute;
+    top:32.5vh;
+    left:93vw;
+    background-image: url(carboard.jpg);
+    border-radius: 25px 0px 0px 25px;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+}
+@font-face{
+    font-family: menuFont;
+    src: url(KGDancingOnTheRooftop.ttf)
+}

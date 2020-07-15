@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { gql } from 'apollo-boost';
-import { graphql} from 'react-apollo';
+import { graphql } from 'react-apollo';
 import './Form.css'
+import { Spinner} from "react-loading-io";
 
 const addMessageMutation = gql`
-    mutation($name:String!,$email:String!,$mess:String!,$subject:String!,$date:String!){
-        addMessage(name:$name,email:$email,mess:$mess,subject:$subject,date:$date){
+    mutation($name:String!,$email:String!,$mess:String!,$subject:String!,$date:String!,$imageId:String!){
+        addMessage(name:$name,email:$email,mess:$mess,subject:$subject,date:$date,imageId:$imageId),{
             name
             email
             mess
             subject
+            date
+            imageId
         }
     }
 `
@@ -21,17 +25,19 @@ class Form extends Component{
         mess: "",
         date: "",
         subject: "",
+        imageId: "",
         sent: false,
-        buttonText: "Submit"
+        buttonText: "Submit",
+        loading: false
     }
 
     formSubmit = (e) => {
+        this.setState({loading:true})
+        console.log(this.props.setImageId)
         e.preventDefault()
         this.setState({
             buttonText: "...Sending"
         })
-        var time = new Date().getMinutes();
-        console.log(time);
         // axios.post('http://localhost:4444/',data).then(res => {
         //     this.setState({sent: true},this.resetForm())
         // }).catch(
@@ -46,9 +52,10 @@ class Form extends Component{
                 mess:this.state.mess,
                 subject: this.state.subject,
                 date: this.state.date,
+                imageId: this.props.setImageId
             }
         });
-        console.log(this.props)
+        console.log(this.props.mutate)
         alert("Message Sent")
         this.resetForm()
     }
@@ -62,19 +69,26 @@ class Form extends Component{
         })
     }
     render() {
-        console.log(this.props)
+        console.log(this.props.mutate)
         return (
                 <div class="App">
+                    {this.state.loading?
+                        <div style={{margin:"auto",height:"200px",width:"100px",
+                            position: "absolute",
+                            margin: "auto",
+                            top: "0",
+                            right: "0",
+                            bottom: "0",
+                            left: "0"}}><Spinner size={64}/>
+                        </div>:<div></div>
+                    }
                     <form onSubmit={ (e) => this.formSubmit(e)}>
-                        <br/>
-                        <br/>
                         <div>
                             <input onChange={e => this.setState({ subject: e.target.value})} name="subject" class="message-subject" type="text" placeholder="Subject" value={this.state.subject}/>
                         </div>
                         <br/>
                         <br/>
                         <div>
-                            <textarea onChange={e => this.setState({ mess: e.target.value})} name="message" class="message-input" type="text" placeholder="Please write your message here" value={this.state.mess}/>
                         </div>
                         <br/>
                         <br/>
