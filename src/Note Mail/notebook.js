@@ -41,7 +41,7 @@ class notebook extends Component{
             const formData = new FormData();
             formData.append('file', blob, 'filename.png');
             // Post via axios or other transport method
-            axios.post('https://futureapi.now.sh/upload', formData).then(res => {this.setState({imageId:res.data.imageId})
+            axios.post('https://aqueous-castle-25723.herokuapp.com/upload', formData).then(res => {this.setState({imageId:res.data.imageId})
                                                                               this.setState({buttonText:"Submit"})
                                                                               this.setState({loading:false})})
             .catch((err) => {
