@@ -7,7 +7,6 @@ class notebookMenu extends Component{
     state = {
         range: ""
     }
-
     action = (e) => {
         e.preventDefault();
         if(document.getElementById(e.target.id).style.color !== "white")
@@ -15,57 +14,26 @@ class notebookMenu extends Component{
         else
             document.getElementById(e.target.id).style.color = "black"
     }
-
     click = (e) => {
-        if(e.target.id !== "insertImage"){
-            e.preventDefault();
-            this.props.range(e.target.id);
-        }
-        else{
-            e.preventDefault();
+        e.preventDefault();
+        if(e.target.id === "insertImage"){
             document.getElementById("insertimage").click()
         }
-
-    }
-
-    change = (e) => {
-        console.log(e.target.files[0].name)
-        this.props.image(URL.createObjectURL(e.target.files[0]))
-    }
-    execCommandOnElement = (el, commandName, value) => {
-        if (typeof value == "undefined") {
-            value = null;
+        else if(e.target.id === "background"){
+            document.getElementById("changeBackground").click()
+        }
+        else{
+            this.props.range(e.target.id);
         }
 
-        if (typeof window.getSelection != "undefined") {
-            var sel = window.getSelection();
-
-            var savedRanges = [];
-            for (var i = 0, len = sel.rangeCount; i < len; ++i) {
-                savedRanges[i] = sel.getRangeAt(i).cloneRange();
-            }
-
-            document.designMode = "on";
-
-            sel = window.getSelection();
-            var range = document.createRange();
-            range.selectNodeContents(el);
-            sel.removeAllRanges();
-            sel.addRange(range);
-
-            document.execCommand(commandName, false, value);
-
-            document.designMode = "off";
-
-            sel = window.getSelection();
-            sel.removeAllRanges();
-            for (var i = 0, len = savedRanges.length; i < len; ++i) {
-            sel.addRange(savedRanges[i]);
-            }
-        } else if (typeof document.body.createTextRange != "undefined") {
-            var textRange = document.body.createTextRange();
-            textRange.moveToElementText(el);
-            textRange.execCommand(commandName, false, value);
+    }
+    change = (e) => {
+        console.log(e.target.files[0].name)
+        if(e.target.id === "changeBackground"){
+            document.getElementsByClassName("writingspace")[0].style.backgroundImage = 
+            "url(" + URL.createObjectURL(e.target.files[0]) + ")"
+        }else if("insertimage"){
+            this.props.image(URL.createObjectURL(e.target.files[0]))
         }
     }
     render(){
@@ -73,19 +41,19 @@ class notebookMenu extends Component{
             <DeviceOrientation lockOrientation={'landscape'}>
                 <Orientation orientation='landscape' alwaysRender={false}>
                     <div className="notebookMenu_horizontal" style={{fontFamily:"notebookMenuFont",fontSize:"2vw",color:"black"}}>
-                        <div id="bold" style={{textAlign:"center",marginTop:"auto",marginLeft:"3vw",display:"inline-block",fontStyle:"Bold",fontSize:"X-Large"}}
+                        <div id="bold" style={{textAlign:"center",marginTop:"auto",marginLeft:"5vw",display:"inline-block",fontStyle:"Bold",fontSize:"4vh"}}
                             onClick={(e) => {this.click(e)}} onMouseOver={(e) => {this.action(e)}} onMouseOut={(e) => {this.action(e)}}>
                                 B</div>
-                        <div id="italic" style={{textAlign:"center",marginTop:"auto",marginLeft:"3vw",display:"inline-block",fontStyle:"Italic",fontSize:"X-Large"}} 
+                        <div id="italic" style={{textAlign:"center",marginTop:"auto",marginLeft:"3vw",display:"inline-block",fontStyle:"Italic",fontSize:"4vh"}} 
                             onClick={(e) => {this.click(e)}} onMouseOver={(e) => {this.action(e)}} onMouseOut={(e) => {this.action(e)}}>
                                 I</div>
-                        <div id="underline" style={{textAlign:"center",marginTop:"auto",marginLeft:"3vw",display:"inline-block",textDecoration:"Underline",fontSize:"X-Large"}}
+                        <div id="underline" style={{textAlign:"center",marginTop:"auto",marginLeft:"3vw",display:"inline-block",textDecoration:"Underline",fontSize:"4vh"}}
                             onClick={(e) => {this.click(e)}} onMouseOver={(e) => {this.action(e)}} onMouseOut={(e) => {this.action(e)}}>
                                 U</div>
-                        <div id="strikeThrough" style={{textAlign:"center",marginTop:"auto",marginLeft:"3vw",display:"inline-block",textDecoration:"line-through",fontSize:"X-Large"}}
+                        <div id="strikeThrough" style={{textAlign:"center",marginTop:"auto",marginLeft:"3vw",display:"inline-block",textDecoration:"line-through",fontSize:"4vh"}}
                             onClick={(e) => {this.click(e)}} onMouseOver={(e) => {this.action(e)}} onMouseOut={(e) => {this.action(e)}}>
                                 S</div>
-                        <div id="largeFont" style={{textAlign:"center",marginTop:"auto",marginLeft:"3vw",display:"inline-block",fontSize:"X-Large"}}
+                        <div id="largeFont" style={{textAlign:"center",marginTop:"auto",marginLeft:"3vw",display:"inline-block",fontSize:"4vh"}}
                             onClick={(e) => {this.click(e)}} onMouseOver={(e) => {this.action(e)}} onMouseOut={(e) => {this.action(e)}}>
                                 Large</div>
                         <div id="normalFont" style={{textAlign:"center",marginTop:"auto",marginLeft:"3vw",display:"inline-block",fontSize:"Medium"}}
@@ -97,11 +65,15 @@ class notebookMenu extends Component{
                         <input style={{display:"none"}} type="file" id="insertimage" name="img" accept="image/*" onChange={(e) => {this.change(e)}}></input>
                         <div id="insertImage" style={{marginLeft:"3vw",display:"inline-block"}} onClick={(e) => {this.click(e)}} onMouseOver={(e) => {this.action(e)}} onMouseOut={(e) => {this.action(e)}}>
                         </div>
-                        <div id="justifyLeft" style={{marginLeft:"3vw",display:"inline-block"}} onClick={(e) => {this.click(e)}} onMouseOver={(e) => {this.action(e)}} onMouseOut={(e) => {this.action(e)}}>
+                        <div id="justifyLeft" style={{marginLeft:"2.5vw",display:"inline-block"}} onClick={(e) => {this.click(e)}} onMouseOver={(e) => {this.action(e)}} onMouseOut={(e) => {this.action(e)}}>
                         </div>
-                        <div id="justifyCenter" style={{marginLeft:"3vw",display:"inline-block"}} onClick={(e) => {this.click(e)}} onMouseOver={(e) => {this.action(e)}} onMouseOut={(e) => {this.action(e)}}>
+                        <div id="justifyCenter" style={{marginLeft:"2.5vw",display:"inline-block"}} onClick={(e) => {this.click(e)}} onMouseOver={(e) => {this.action(e)}} onMouseOut={(e) => {this.action(e)}}>
                         </div>
-                        <div id="justifyRight" style={{marginLeft:"3vw",display:"inline-block"}} onClick={(e) => {this.click(e)}} onMouseOver={(e) => {this.action(e)}} onMouseOut={(e) => {this.action(e)}}>
+                        <div id="justifyRight" style={{marginLeft:"2.5vw",display:"inline-block"}} onClick={(e) => {this.click(e)}} onMouseOver={(e) => {this.action(e)}} onMouseOut={(e) => {this.action(e)}}>
+                        </div>
+                        <input style={{display:"none"}} type="file" id="changeBackground" name="img" accept="image/*" onChange={(e) => {this.change(e)}}></input>
+                        <div id="background" style={{textAlign:"center",marginTop:"auto",marginLeft:"3vw",display:"inline-block",fontSize:"4vh",fontStyle:"Bold"}}
+                            onClick={(e) => {this.click(e)}} onMouseOver={(e) => {this.action(e)}} onMouseOut={(e) => {this.action(e)}}>
                         </div>
                     </div>
                 </Orientation>

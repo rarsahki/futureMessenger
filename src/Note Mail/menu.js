@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import "./menu.css";
 import DeviceOrientation, { Orientation } from 'react-screen-orientation'
+import { urlencoded } from 'body-parser';
 
 class menu extends Component{
     Undo = (e) => {
@@ -16,8 +17,11 @@ class menu extends Component{
         else
             document.getElementById(e.target.id).style.color = "black"
     }
-    macha = () => {
-            return(<div onMouseUp={(e) => {console.log("macha")}}>MCAH</div>)
+    method = (e) => {
+        if(e.target.textContent === "Done")
+            this.props.done()
+        else if(e.target.textContent === "Submit")
+            this.props.submit()
     }
     execCommandOnElement = (el, commandName, value) => {
         if (typeof value == "undefined") {
@@ -70,8 +74,9 @@ class menu extends Component{
                             onClick={(e) => {this.Redo(e)}} onMouseOver={(e) => {this.action(e)}} onMouseOut={(e) => {this.action(e)}}>
                                 Redo</div>
                         <div id="Submit" style={{textAlign:"center",marginTop:"auto",marginLeft:"5vw",display:"inline-block"}}
-                            onClick={(e) => {document.getElementById('form').scrollIntoView({behavior: 'smooth'})}} onMouseOver={(e) => {this.action(e)}} onMouseOut={(e) => {this.action(e)}}>
-                                Submit</div>
+                            onClick={(e) => {this.method(e)}} onMouseOver={(e) => {this.action(e)}} onMouseOut={(e) => {this.action(e)}}>
+                        {this.props.buttonText}
+                        </div>
                     </div>
                 </Orientation>
                 <Orientation orientation='portrait' alwaysRender={false}>

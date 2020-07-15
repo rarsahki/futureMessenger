@@ -35,6 +35,17 @@
     background-image: url(insertImage.png);
 }
 
+#background{
+    height: 3.5vh;
+    width: 3.5vw;
+    margin: auto;
+    position: relative;
+    top: 10%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(background.png);
+}
+
 #insertimage{
     height: 3.5vh;
     width: 3.5vw;

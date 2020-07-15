@@ -4,17 +4,17 @@ import Macha from './menu';
 import Macha2 from './notebookMenu';
 import html2canvas from 'html2canvas';
 import axios from 'axios';
-import Button from 'react-bootstrap/Button';
-import Form from 'antd/lib/form/Form';
-import notebookMenu from './notebookMenu';
-var imageId = "";
+import { Spinner} from "react-loading-io";
+
 class notebook extends Component{
     state = {
         range: "",
         id: "",
         imageUrl: "",
         canvas: "",
-        imageId: "5f0b5cec6c996b66cb50e76f"
+        imageId: "5f0b5cec6c996b66cb50e76f",
+        buttonText: "Done",
+        loading: false
     }
     contextMenu = (e) => {
         var range = document.getSelection().getRangeAt(0);
@@ -23,23 +23,34 @@ class notebook extends Component{
     exec = (id) => {
         document.getSelection().removeAllRanges();
         document.getSelection().addRange(this.state.range);
-        document.execCommand(id,null,null);
+        if(id === "largeFont"){
+            document.execCommand("fontSize",null,6);
+        }else if(id === "normalFont"){
+            document.execCommand("fontSize",null,3);
+        }else if(id === "smallFont"){
+            document.execCommand("fontSize",null,2);
+        }else{
+            document.execCommand(id,null,null);
+        }
     }
-    submit = (e) => {
+    submit = () => {
+        this.setState({loading:true})
         html2canvas(document.getElementsByClassName("writingspace")[0],
         { logging: true, letterRendering: 1, allowTaint: false ,useCORS: true })
         .then(canvas => canvas.toBlob((blob) => {
             const formData = new FormData();
             formData.append('file', blob, 'filename.png');
             // Post via axios or other transport method
-            axios.post('http://localhost:4444/upload', formData).then(res => {this.setState({imageId:res.data.imageId})})
+            axios.post('http://localhost:4444/upload', formData).then(res => {this.setState({imageId:res.data.imageId})
+                                                                              this.setState({buttonText:"Submit"})
+                                                                              this.setState({loading:false})})
             .catch((err) => {
                     console.log("Error: ", err)
                 }
             )
         }))
     }
-    shift = (e) => {
+    shift = () => {
         console.log(this.state.imageId)
         this.props.getImageId(this.state.imageId)
         document.getElementsByClassName('App')[0].scrollIntoView({behavior: 'smooth'});
@@ -73,15 +84,61 @@ class notebook extends Component{
         sel.removeAllRanges()
         sel.addRange(range)
     }
+    execCommandOnElement = (el, commandName, value) => {
+        if (typeof value == "undefined") {
+            value = null;
+        }
+
+        if (typeof window.getSelection != "undefined") {
+            var sel = window.getSelection();
+
+            var savedRanges = [];
+            for (var i = 0, len = sel.rangeCount; i < len; ++i) {
+                savedRanges[i] = sel.getRangeAt(i).cloneRange();
+            }
+
+            document.designMode = "on";
+
+            sel = window.getSelection();
+            var range = document.createRange();
+            range.selectNodeContents(el);
+            sel.removeAllRanges();
+            sel.addRange(range);
+
+            document.execCommand(commandName, false, value);
+
+            document.designMode = "off";
+
+            sel = window.getSelection();
+            sel.removeAllRanges();
+            for (var i = 0, len = savedRanges.length; i < len; ++i) {
+            sel.addRange(savedRanges[i]);
+            }
+        } else if (typeof document.body.createTextRange != "undefined") {
+            var textRange = document.body.createTextRange();
+            textRange.moveToElementText(el);
+            textRange.execCommand(commandName, false, value);
+        }
+    }
     render(){
         return(
             <div className="noteBook">
-                <Macha2 range={this.exec} image={this.insertImage}/>
-                <Macha/>
-                <div onMouseUp={(e) => {this.contextMenu(e)}} contentEditable="true" className="writingspace">
+                {this.state.loading?
+                    <div style={{margin:"auto",height:"200px",width:"100px",
+                        position: "absolute",
+                        margin: "auto",
+                        top: "0",
+                        right: "0",
+                        bottom: "0",
+                        left: "0"}}><Spinner size={64}/>
+                    </div>:<div></div>
+                }
+                <div>
+                    <Macha2 range={this.exec} image={this.insertImage}/>
+                    <Macha buttonText={this.state.buttonText} done={this.submit} submit={this.shift}/>
+                    <div onMouseUp={(e) => {this.contextMenu(e)}} contentEditable="true" className="writingspace">
+                    </div>
                 </div>
-                <Button onClick={(e) => {this.submit(e)}}>Submit</Button>
-                <Button onClick={(e) => {this.shift(e)}}>Shift</Button>
             </div>
         )
     }

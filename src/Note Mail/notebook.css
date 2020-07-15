@@ -10,7 +10,7 @@
 }
 .writingspace{   
     background-image: url("pad.jpg");
-    background-size: cover;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
     line-height: 200%;
     margin: auto;

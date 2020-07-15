@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-import { Editor } from 'react-draft-wysiwyg';
-import { EditorState } from 'draft-js';
-import {stateToHTML} from 'draft-js-export-html';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { gql } from 'apollo-boost';
 import { graphql } from 'react-apollo';
 import './Form.css'
-import Notebook from './Note Mail/notebook';
-import notebook from './Note Mail/notebook';
+import { Spinner} from "react-loading-io";
 
 const addMessageMutation = gql`
     mutation($name:String!,$email:String!,$mess:String!,$subject:String!,$date:String!,$imageId:String!){
@@ -32,10 +28,12 @@ class Form extends Component{
         imageId: "",
         sent: false,
         buttonText: "Submit",
+        loading: false
     }
 
     formSubmit = (e) => {
-        console.log(this.props.imageId)
+        this.setState({loading:true})
+        console.log(this.props.setImageId)
         e.preventDefault()
         this.setState({
             buttonText: "...Sending"
@@ -57,7 +55,7 @@ class Form extends Component{
                 imageId: this.props.setImageId
             }
         });
-        console.log(this.props)
+        console.log(this.props.mutate)
         alert("Message Sent")
         this.resetForm()
     }
@@ -71,9 +69,19 @@ class Form extends Component{
         })
     }
     render() {
-        console.log(this.props)
+        console.log(this.props.mutate)
         return (
                 <div class="App">
+                    {this.state.loading?
+                        <div style={{margin:"auto",height:"200px",width:"100px",
+                            position: "absolute",
+                            margin: "auto",
+                            top: "0",
+                            right: "0",
+                            bottom: "0",
+                            left: "0"}}><Spinner size={64}/>
+                        </div>:<div></div>
+                    }
                     <form onSubmit={ (e) => this.formSubmit(e)}>
                         <div>
                             <input onChange={e => this.setState({ subject: e.target.value})} name="subject" class="message-subject" type="text" placeholder="Subject" value={this.state.subject}/>
