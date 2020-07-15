@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Form from '/home/ark/Downloads/futuremessenger/src/Form.js';
-import Notebook from '/home/ark/Downloads/futuremessenger/src/Note Mail/notebook.js';
 import "./root.css";
+import Form from '../Form';
+import Notebook from '../Note Mail/notebook';
 
 class root extends Component{
     state = {
