@@ -50,6 +50,31 @@ class notebook extends Component{
     }
     submit = () => {
         this.setState({loading:true})
+        if(document.getElementsByClassName("writingspace")[0].innerHTML.includes("<u><b>")&&
+           document.getElementsByClassName("writingspace")[0].innerHTML.includes("</b></u>")){
+            document.getElementsByClassName("writingspace")[0].innerHTML = 
+            document.getElementsByClassName("writingspace")[0].innerHTML.replace(/<u><b>/g,"<b><u>")
+            document.getElementsByClassName("writingspace")[0].innerHTML = 
+            document.getElementsByClassName("writingspace")[0].innerHTML.replace(/<\/b><\/u>/g,"</u></b>")
+            document.getElementsByClassName("writingspace")[0].innerHTML = 
+            document.getElementsByClassName("writingspace")[0].innerHTML.replace(/<u><b><i>/g,"<b><i><u>")
+            document.getElementsByClassName("writingspace")[0].innerHTML = 
+            document.getElementsByClassName("writingspace")[0].innerHTML.replace(/<\/i><\/b><\/u>/g,"</u></i></b>")
+        }
+        if(document.getElementsByClassName("writingspace")[0].innerHTML.includes("<u><i><b>")&&
+           document.getElementsByClassName("writingspace")[0].innerHTML.includes("</b></i></u>")){
+            document.getElementsByClassName("writingspace")[0].innerHTML = 
+            document.getElementsByClassName("writingspace")[0].innerHTML.replace(/<u><i><b>/g,"<b><i><u>")
+            document.getElementsByClassName("writingspace")[0].innerHTML = 
+            document.getElementsByClassName("writingspace")[0].innerHTML.replace(/<\/b><\/i><\/u>/g,"</u></i></b>")
+           }
+        if(document.getElementsByClassName("writingspace")[0].innerHTML.includes("<u><b><i>")&&
+           document.getElementsByClassName("writingspace")[0].innerHTML.includes("</i></b></u>")){
+            document.getElementsByClassName("writingspace")[0].innerHTML = 
+            document.getElementsByClassName("writingspace")[0].innerHTML.replace(/<u><b><i>/g,"<b><i><u>")
+            document.getElementsByClassName("writingspace")[0].innerHTML = 
+            document.getElementsByClassName("writingspace")[0].innerHTML.replace(/<\/i><\/b><\/u>/g,"</u></i></b>")
+           }
         html2canvas(document.getElementsByClassName("writingspace")[0],
         { logging: true, letterRendering: 1, allowTaint: false ,useCORS: true })
         .then(canvas => canvas.toBlob((blob) => {
@@ -94,8 +119,9 @@ class notebook extends Component{
         document.getSelection().removeAllRanges();
         document.getSelection().addRange(this.state.range);
         //add to style for inline block display display:inline;display:-moz-inline-stack
-        var insertImageHtml = "<div style=\"max-height:500;max-width:500;resize:both;overflow:auto;\">" +
-        "<img style=\"max-height:1000;max-width:1000\" src=\""+url+"\">" + "<\/div><div>&nbsp</div>"
+        var insertImageHtml = "<div style=\"max-height:70vh;max-width:65vw;overflow:auto;\">" +
+        "<div style=\"max-height:100%;max-width:100%;resize:both;overflow:auto;align:center\">" +
+        "<img height=\"100%\" width=\"100%\" style=\"max-height:100%;max-width:100%\" src=\""+url+"\">" + "<\/div><\/div><div>&nbsp</div>"
         document.execCommand("insertHtml",null,insertImageHtml);
         var el = document.getElementsByClassName("writingspace")[0];
         var range = document.createRange();
