@@ -5,6 +5,7 @@ import Macha2 from './notebookMenu';
 import html2canvas from 'html2canvas';
 import axios from 'axios';
 import { Spinner} from "react-loading-io";
+import { Alert } from '@material-ui/lab';
 
 class notebook extends Component{
     state = {
@@ -14,7 +15,21 @@ class notebook extends Component{
         canvas: "",
         imageId: "5f0b5cec6c996b66cb50e76f",
         buttonText: "Done",
-        loading: false
+        loading: false,
+        entry: true,
+        alert: false
+    }
+    rangeChange = (e) => {
+        var el = document.getElementsByClassName("writingspace")[0];
+        var range = document.createRange();
+        var sel = document.getSelection();
+        var length = el.childNodes[el.childNodes.length-1].textContent.length;
+        console.log(length+":"+el.childNodes[el.childNodes.length-1].textContent)
+        range.setStart(el.childNodes[el.childNodes.length-1],++length)
+        range.collapse(true)
+        sel.removeAllRanges()
+        sel.addRange(range)
+        this.setState({range:range})
     }
     contextMenu = (e) => {
         var range = document.getSelection().getRangeAt(0);
@@ -41,11 +56,16 @@ class notebook extends Component{
             const formData = new FormData();
             formData.append('file', blob, 'filename.png');
             // Post via axios or other transport method
-            axios.post('https://aqueous-castle-25723.herokuapp.com/upload', formData).then(res => {this.setState({imageId:res.data.imageId})
+            axios.post('http://aqueous-castle-25723.herokuapp.com/upload', formData).then(res => {this.setState({imageId:res.data.imageId})
                                                                               this.setState({buttonText:"Submit"})
-                                                                              this.setState({loading:false})})
+                                                                              this.setState({loading:false})
+                                                                              document.getElementsByClassName("noteBook")[0].style.filter = "blur(0px)"
+                                                                              this.shift()})
             .catch((err) => {
                     console.log("Error: ", err)
+                    this.setState({entry:true})
+                    this.props.getAlertStatus(true)
+                    this.props.getAlertMessage("Network error! Please try again. Sorry for inconvenience")
                 }
             )
         }))
@@ -54,6 +74,7 @@ class notebook extends Component{
         console.log(this.state.imageId)
         this.props.getImageId(this.state.imageId)
         document.getElementsByClassName('App')[0].scrollIntoView({behavior: 'smooth'});
+        this.setState({entry:true})
     }
     dataURLtoFile = (dataurl, filename) => {
  
@@ -72,8 +93,9 @@ class notebook extends Component{
     insertImage = (url) => {
         document.getSelection().removeAllRanges();
         document.getSelection().addRange(this.state.range);
-        var insertImageHtml = "<div style=\"max-height:500;max-width:500;resize:both;overflow:auto;display:inline-block;display:-moz-inline-stack\">" +
-        "<img style=\"max-height:1000;max-width:1000\" src=\""+url+"\">" + "<\/div><div style=\"display:inline-block;display:-moz-inline-stack\">&nbsp</div>"
+        //add to style for inline block display display:inline;display:-moz-inline-stack
+        var insertImageHtml = "<div style=\"max-height:500;max-width:500;resize:both;overflow:auto;\">" +
+        "<img style=\"max-height:1000;max-width:1000\" src=\""+url+"\">" + "<\/div><div>&nbsp</div>"
         document.execCommand("insertHtml",null,insertImageHtml);
         var el = document.getElementsByClassName("writingspace")[0];
         var range = document.createRange();
@@ -120,25 +142,49 @@ class notebook extends Component{
             textRange.execCommand(commandName, false, value);
         }
     }
+
+    enter = (e) => {
+        this.setState({entry:false})
+        this.props.getAlertStatus(false)
+    }
     render(){
         return(
-            <div className="noteBook">
-                {this.state.loading?
-                    <div style={{margin:"auto",height:"200px",width:"100px",
-                        position: "absolute",
-                        margin: "auto",
-                        top: "0",
-                        right: "0",
-                        bottom: "0",
-                        left: "0"}}><Spinner size={64}/>
-                    </div>:<div></div>
+            <div className="note">
+                {this.props.setAlertStatus?
+                    <Alert severity="success">{this.props.setAlertMessage}</Alert>
+                    :
+                    <div/>
                 }
-                <div>
-                    <Macha2 range={this.exec} image={this.insertImage}/>
-                    <Macha buttonText={this.state.buttonText} done={this.submit} submit={this.shift}/>
-                    <div onMouseUp={(e) => {this.contextMenu(e)}} contentEditable="true" className="writingspace">
+                {this.state.entry?
+                    <div className="noteBook">
+                        <div class="Entry">
+                            <div style={{position:"absolute",top:"20vh",left:"25.5vw",fontFamily:"Garamond",fontSize:"2.3vw",textAlign:"center"}}>
+                                Welcome to futureMessenger!<br/>
+                                This app lets you send messages to anyone<br/>
+                                scheduled for any time in the future.
+                            </div>
+                            <button id="submitButton" onClick={(e)=>{this.enter(e)}}>LET'S GO WRITE</button>
+                        </div>
+                    </div>:
+                    <div className="noteBook">
+                        {this.state.loading?
+                            <div style={{margin:"auto",height:"200px",width:"100px",
+                                position: "absolute",
+                                margin: "auto",
+                                top: "0",
+                                right: "0",
+                                bottom: "0",
+                                left: "0"}}><Spinner size={100}/>
+                            </div>:<div></div>
+                        }
+                        <div>
+                            <Macha2 range={this.exec} image={this.insertImage}/>
+                            <Macha buttonText={this.state.buttonText} submit={this.submit}/>
+                            <div onMouseUp={(e) => {this.contextMenu(e)}} contentEditable="true" className="writingspace">
+                            </div>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
         )
     }

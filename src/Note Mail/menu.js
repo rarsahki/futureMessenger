@@ -18,9 +18,6 @@ class menu extends Component{
             document.getElementById(e.target.id).style.color = "black"
     }
     method = (e) => {
-        if(e.target.textContent === "Done")
-            this.props.done()
-        else if(e.target.textContent === "Submit")
             this.props.submit()
     }
     execCommandOnElement = (el, commandName, value) => {
@@ -75,8 +72,7 @@ class menu extends Component{
                                 Redo</div>
                         <div id="Submit" style={{textAlign:"center",marginTop:"auto",marginLeft:"5vw",display:"inline-block"}}
                             onClick={(e) => {this.method(e)}} onMouseOver={(e) => {this.action(e)}} onMouseOut={(e) => {this.action(e)}}>
-                        {this.props.buttonText}
-                        </div>
+                                Submit</div>
                     </div>
                 </Orientation>
                 <Orientation orientation='portrait' alwaysRender={false}>
