@@ -19,6 +19,16 @@ class notebook extends Component{
         entry: true,
         alert: false
     }
+    componentDidMount(){
+        var shadow = document.getElementsByClassName("Entry")[0];
+        shadow.addEventListener("mousemove",(e) => {
+            console.log(e.offsetX)
+            shadow.style.boxShadow = -(270-e.offsetX) + "px 50px 20px 1px rgb(164, 148, 170)";
+        })
+        shadow.addEventListener("mouseout",() => {
+            shadow.style.boxShadow = ""
+        })
+    }
     rangeChange = (e) => {
         var el = document.getElementsByClassName("writingspace")[0];
         var range = document.createRange();
